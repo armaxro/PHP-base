@@ -20,13 +20,14 @@ $nbPages = ceil($nbPays / $nbPaysParPage);
 ?>
 <!doctype html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>28-boucle-do-while</title>
 </head>
+
 <body>
     <h1>28-boucle-do-while</h1>
     <h2>Créez la pagination avec la boucle do while</h2>
@@ -36,24 +37,33 @@ $nbPages = ceil($nbPays / $nbPaysParPage);
     echo "Pour ce tableau de $nbPays pays, répartis par $nbPaysParPage pays par page,
  vous obtiendrez $nbPages pages<br><br>";
 
- foreach($countryCode as $item){
-    echo "nom : $item[3] | code numérique:".$item[0]." | code alpha 2 : $item[2] <br> <hr>";
-}
-echo "</p>";
+    foreach ($countryCode as $item) {
+        echo "nom : $item[3] | code numérique:" . $item[0] . " | code alpha 2 : $item[2] <br> <hr>";
+    }
+    echo "</p>";
 
-do{
-    echo "$nbPages";
-    $nbPages++;
-}while($nbPages<=20);
 
-    
     ?>
-<h2>Les régions de France</h2>
-    <h4>Ici la pagination</h4>
-<p>Affichez ensuite la liste des régions suivant la variable $_GET nommée 'pg'</p>
+    <h2>Les régions de France</h2>
+    <h4>
+        <?php
+        $page = 1;
+        do {
+            /* -- bonne pratique -- 
+            ?>
+            <a href="?pg=<?=$page?>"><?=$page?></a>
+            ?>
+            */
+            echo "<a href='?pg=$page'>$page</a> ";
+            $page++;
+        } while ($page <= $nbPages)
+        ?>
+    </h4>
+    <p>Affichez ensuite la liste des régions suivant la variable $_GET nommée 'pg'</p>
     <hr>
 
     <hr>
     <h4>Ici la pagination</h4>
 </body>
+
 </html>
