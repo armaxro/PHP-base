@@ -35,13 +35,40 @@ $nbPages = ceil($nbPays / $nbPaysParPage);
     <p>Exemple d'un lien valide : <a href="?pg=3">3</a></p>
     <?php
     echo "Pour ce tableau de $nbPays pays, répartis par $nbPaysParPage pays par page,
- vous obtiendrez $nbPages pages<br><br>";
+    vous obtiendrez $nbPages pages<br><br>";
 
-    foreach ($countryCode as $item) {
-        echo "nom : $item[3] | code numérique:" . $item[0] . " | code alpha 2 : $item[2] <br> <hr>";
+    //si il existe la variable $_GET['pg'] et qu'elle n'est pas vide (!empty)
+    // et (and &&)
+    //que des signes numeriques => 0123456789
+    if(!empty($_GET['pg'])&&ctype_digit($_GET['pg'])){
+        //on trqsnforme toujours les superglobales utilisateur en variables locales 
+        //pour le traitement de sécurtité
+        //trasnformation du string en integer
+        $currentPage = (int) $_GET['pg']; //en utilisant les casting de type
+     // sinon (pas de variable $_GET['pg'] ou varible non valide   
+    }else{
+        $currentPage=1;
     }
-    echo "</p>";
 
+    //condition ternaire qui remplit la meme condition: condition? true : false
+
+    $currentPage = !empty($_GET['pg'])&&ctype_digit($_GET['pg'])
+        ? (int) $_GET['pg']
+        : 1;
+
+
+    /*
+    si il existe la variable $_GET['pg'] ET 
+        if(isset($_GET['pg']) && 
+    que la variable pg est un string ne contenant 
+    que des signes numériques => 123456789
+        ctype_digit($_GET['pg'])
+        ET qu'il est dif de empty
+        && !empty($_GET['pg'])){
+           echo $_GET['pg'];
+        }
+    */   
+    
 
     ?>
     <h2>Les régions de France</h2>
@@ -61,9 +88,27 @@ $nbPages = ceil($nbPays / $nbPaysParPage);
     </h4>
     <p>Affichez ensuite la liste des régions suivant la variable $_GET nommée 'pg'</p>
     <hr>
+        <ul>
+        <?php
+        //debut de l'index du tableau (le LIMIT en SQL )
+        $i=($currentPage-1)*$nbPaysParPage;
+        do{
+            // si on depasse le nombre de pays, on arrete la boucle
+            if($i>=$nbPays) break;
+        ?>    
+        <li><?=$depFr[$i]?></li>
+        <?php
+        }while($i<$nbPaysParPage * $currentPage);
+        ?>
+        </ul>
 
     <hr>
-    <h4>Ici la pagination</h4>
+    <h4>
+        <?php
+
+        ?>
+    
+    </h4>
 </body>
 
 </html>
